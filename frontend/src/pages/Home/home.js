@@ -5,6 +5,7 @@ import axios from "axios";
 import { backendUrl } from "../../env";
 import ProductCard from "./Components/ProductCard";
 import NoProducts from "./Components/noProduct";
+import Footer from "./Components/Footer";
 
 function Home(){
     const [product, setProduct] = useState([]);
@@ -63,7 +64,8 @@ function Home(){
                 </div>
             ) : (
                 <NoProducts />
-            )}            
+            )}
+            <Footer />
         </div>
     )
 }

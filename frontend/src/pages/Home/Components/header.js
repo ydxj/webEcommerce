@@ -48,7 +48,7 @@ function Header() {
             <Nav.Link href="/cart" className="position-relative">
               <FaShoppingCart size={20} />
               <Badge bg="danger" pill className="position-absolute top-0 start-100 translate-middle">
-                2
+                0
               </Badge>
             </Nav.Link>
             <Nav.Link href="/account">
