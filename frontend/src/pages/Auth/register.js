@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import { backendUrl } from "../../env";
 
 function Register() {
@@ -12,10 +13,10 @@ function Register() {
   const [loading, setLoading] = useState(false);
 
   const spinnerRef = useRef(null);
+  const cardRef = useRef(null);
 
   const EmailRegx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // Password condition checks
   const getPasswordChecks = (password) => ({
     length: password.length >= 8,
     uppercase: /[A-Z]/.test(password),
@@ -30,7 +31,6 @@ function Register() {
     setPasswordChecks(getPasswordChecks(password));
   }, [password]);
 
-  // GSAP spinner animation
   useEffect(() => {
     if (loading && spinnerRef.current) {
       gsap.to(spinnerRef.current, {
@@ -45,147 +45,102 @@ function Register() {
     }
   }, [loading]);
 
+  useEffect(() => {
+    gsap.fromTo(cardRef.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" });
+  }, []);
+
   const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
 
-    if (!EmailRegx.test(email)) {
-      setError('Invalid email format.');
-      return;
-    }
+    if (!EmailRegx.test(email)) return setError('Invalid email format.');
+    if (password !== confirmPassword) return setError('Passwords do not match.');
 
-    if (password !== confirmPassword) {
-      setError('Passwords do not match.');
-      return;
-    }
-
-    const checks = getPasswordChecks(password);
-    const allValid = Object.values(checks).every(Boolean);
-    if (!allValid) {
-      setError('Password must meet all the criteria.');
-      return;
-    }
+    const allValid = Object.values(getPasswordChecks(password)).every(Boolean);
+    if (!allValid) return setError('Password must meet all the criteria.');
 
     setLoading(true);
-
     try {
-      const response = await axios.post(`${backendUrl}/api/auth/register`, {
-        name,
-        email,
-        password
-      });
-
-      if (response.data.success) {
+      const res = await axios.post(`${backendUrl}/api/auth/register`, { name, email, password });
+      if (res.data.success) {
         window.location.href = '/login';
       } else {
-        setError(response.data.message || 'Registration failed. Please try again.');
+        setError(res.data.message || 'Registration failed. Please try again.');
       }
-    } catch (err) {
+    } catch {
       setError('An error occurred while registering. Please try again.');
     }
-
     setLoading(false);
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card shadow">
-            <div className="card-body">
-              <h2 className="card-title mb-4 text-center">Register</h2>
+    <div className="d-flex align-items-center justify-content-center vh-100 bg-light">
+      <div ref={cardRef} className="card p-4 shadow-lg rounded-4" style={{ maxWidth: 500, width: "100%", background: "rgba(255, 255, 255, 0.95)", backdropFilter: "blur(10px)" }}>
+        <div className="text-center mb-4">
+          <h2 className="fw-bold">Create an Account</h2>
+          <p className="text-muted small">Join us and explore great products!</p>
+        </div>
 
-              {error && <div className="alert alert-danger">{error}</div>}
+        {error && <div className="alert alert-danger py-2">{error}</div>}
 
-              <form onSubmit={handleRegister}>
-                <div className="mb-3">
-                  <label htmlFor="name" className="form-label">Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">Email</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label">Password</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                {password && (
-                  <ul className="mt-2 list-unstyled small">
-                    <li className={passwordChecks.length ? 'text-success' : 'text-muted'}>
-                      {passwordChecks.length ? '✅' : '❌'} At least 8 characters
-                    </li>
-                    <li className={passwordChecks.uppercase ? 'text-success' : 'text-muted'}>
-                      {passwordChecks.uppercase ? '✅' : '❌'} One uppercase letter
-                    </li>
-                    <li className={passwordChecks.lowercase ? 'text-success' : 'text-muted'}>
-                      {passwordChecks.lowercase ? '✅' : '❌'} One lowercase letter
-                    </li>
-                    <li className={passwordChecks.number ? 'text-success' : 'text-muted'}>
-                      {passwordChecks.number ? '✅' : '❌'} One number
-                    </li>
-                    <li className={passwordChecks.special ? 'text-success' : 'text-muted'}>
-                      {passwordChecks.special ? '✅' : '❌'} One special character
-                    </li>
-                  </ul>
-                  )}
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="confirmPassword"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                  />
-                </div>
-
-                <div className="d-grid">
-                  <button type="submit" className="btn btn-primary" disabled={loading}>
-                    {loading ? (
-                      <>
-                        <span
-                          ref={spinnerRef}
-                          className="spinner-border spinner-border-sm me-2"
-                          role="status"
-                          aria-hidden="true"
-                        ></span>
-                        Registering...
-                      </>
-                    ) : (
-                      'Register'
-                    )}
-                  </button>
-                </div>
-              </form>
-
+        <form onSubmit={handleRegister}>
+          <div className="mb-3">
+            <label className="form-label">Name</label>
+            <div className="input-group">
+              <span className="input-group-text"><FaUser /></span>
+              <input type="text" className="form-control" value={name} onChange={e => setName(e.target.value)} required />
             </div>
           </div>
+
+          <div className="mb-3">
+            <label className="form-label">Email</label>
+            <div className="input-group">
+              <span className="input-group-text"><FaEnvelope /></span>
+              <input type="email" className="form-control" value={email} onChange={e => setEmail(e.target.value)} required />
+            </div>
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Password</label>
+            <div className="input-group">
+              <span className="input-group-text"><FaLock /></span>
+              <input type="password" className="form-control" value={password} onChange={e => setPassword(e.target.value)} required />
+            </div>
+            {password && (
+              <ul className="list-unstyled small mt-2">
+                <li className={passwordChecks.length ? "text-success" : "text-muted"}>{passwordChecks.length ? '✅' : '❌'} At least 8 characters</li>
+                <li className={passwordChecks.uppercase ? "text-success" : "text-muted"}>{passwordChecks.uppercase ? '✅' : '❌'} One uppercase letter</li>
+                <li className={passwordChecks.lowercase ? "text-success" : "text-muted"}>{passwordChecks.lowercase ? '✅' : '❌'} One lowercase letter</li>
+                <li className={passwordChecks.number ? "text-success" : "text-muted"}>{passwordChecks.number ? '✅' : '❌'} One number</li>
+                <li className={passwordChecks.special ? "text-success" : "text-muted"}>{passwordChecks.special ? '✅' : '❌'} One special character</li>
+              </ul>
+            )}
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Confirm Password</label>
+            <div className="input-group">
+              <span className="input-group-text"><FaLock /></span>
+              <input type="password" className="form-control" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required />
+            </div>
+          </div>
+
+          <div className="d-grid">
+            <button className="btn btn-primary rounded-pill fw-semibold py-2" disabled={loading}>
+              {loading ? (
+                <>
+                  <span ref={spinnerRef} className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Registering...
+                </>
+              ) : (
+                "Register"
+              )}
+            </button>
+          </div>
+        </form>
+
+        <div className="text-center mt-3 small text-muted">
+          Already have an account? <a href="/login" className="text-decoration-none">Login here</a>
         </div>
       </div>
     </div>

@@ -51,7 +51,7 @@ function Header() {
                 0
               </Badge>
             </Nav.Link>
-            <Nav.Link href="/account">
+            <Nav.Link href="/login">
               <FaUser size={20} />
             </Nav.Link>
           </Nav>
