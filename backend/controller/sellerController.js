@@ -49,3 +49,20 @@ export const ModifierProduits = async (req, res) => {
     }
 }
 
+export const SupprimerProduits = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Delete product from the database
+        const result = await db.query('DELETE FROM produits WHERE id = ?', [id]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Produit non trouvé.' });
+        }
+
+        res.status(200).json({ message: 'Produit supprimé avec succès.' });
+    } catch (error) {
+        console.error('Erreur lors de la suppression du produit:', error);
+        res.status(500).json({ message: 'Erreur interne du serveur.' });
+    }
+}
