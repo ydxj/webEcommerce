@@ -60,7 +60,7 @@ export const updateUser = async (req, res) => {
 }
 export const getAllProducts = async (req, res) => {
     try {
-        const [products] = await db.query('SELECT * FROM produits');
+        const [products] = await db.query('SELECT * FROM products');
         if (products.length === 0) {
             return res.status(404).json({ message: 'No products found.' });
         }
@@ -73,7 +73,7 @@ export const getAllProducts = async (req, res) => {
 export const getProductById = async (req, res) => {
     const { id } = req.params;
     try {
-        const [product] = await db.query('SELECT * FROM produits WHERE id = ?', [id]);
+        const [product] = await db.query('SELECT * FROM products WHERE id = ?', [id]);
         if (product.length === 0) {
             return res.status(404).json({ message: 'Product not found.' });
         }
@@ -86,7 +86,7 @@ export const getProductById = async (req, res) => {
 export const deleteProduct = async (req, res) => {
     const { id } = req.params;
     try {
-        const [result] = await db.query('DELETE FROM produits WHERE id = ?', [id]);
+        const [result] = await db.query('DELETE FROM products WHERE id = ?', [id]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: 'Product not found.' });
         }
@@ -102,7 +102,7 @@ export const updateProduct = async (req, res) => {
 
     try {
         const [result] = await db.query(
-            'UPDATE produits SET nom = ?, description = ?, prix = ?, quantite = ?, categorie = ? WHERE id = ?',
+            'UPDATE products SET nom = ?, description = ?, prix = ?, quantite = ?, categorie = ? WHERE id = ?',
             [nom, description, prix, quantite, categorie, id]
         );
 

@@ -5,7 +5,7 @@ export const getProduits = async (req, res) => {
     const sellerId = req.id; 
     try {
         // Fetch products from the database for the seller
-        const [produits] = await db.query('SELECT * FROM produits WHERE seller_id = ?', [sellerId]);
+        const [produits] = await db.query('SELECT * FROM products WHERE seller_id = ?', [sellerId]);
         if (produits.length === 0) {
             return res.status(404).json({ message: 'Aucun produit trouvé.' });
         }
@@ -20,7 +20,7 @@ export const getProduitById = async (req, res) => {
     const { id } = req.params;
     try {
         // Fetch product by ID from the database
-        const [produit] = await db.query('SELECT * FROM produits WHERE id = ?', [id]);
+        const [produit] = await db.query('SELECT * FROM products WHERE id = ?', [id]);
         if (produit.length === 0) {
             return res.status(404).json({ message: 'Produit non trouvé.' });
         }
@@ -43,7 +43,7 @@ export const AjouterProduits = async (req, res) => {
     
         // Insert product into the database
         const result = await db.query(
-        'INSERT INTO produits (nom, description, prix, quantite, categorie) VALUES (?, ?, ?, ?, ?)',
+        'INSERT INTO products (nom, description, prix, quantite, categorie) VALUES (?, ?, ?, ?, ?)',
         [nom, description, prix, quantite, categorie]
         );
     
@@ -66,7 +66,7 @@ export const ModifierProduits = async (req, res) => {
 
         // Update product in the database
         const result = await db.query(
-            'UPDATE produits SET nom = ?, description = ?, prix = ?, quantite = ?, categorie = ? WHERE id = ?',
+            'UPDATE products SET nom = ?, description = ?, prix = ?, quantite = ?, categorie = ? WHERE id = ?',
             [nom, description, prix, quantite, categorie, id]
         );
 
@@ -86,7 +86,7 @@ export const SupprimerProduits = async (req, res) => {
         const { id } = req.params;
 
         // Delete product from the database
-        const result = await db.query('DELETE FROM produits WHERE id = ?', [id]);
+        const result = await db.query('DELETE FROM products WHERE id = ?', [id]);
 
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: 'Produit non trouvé.' });
