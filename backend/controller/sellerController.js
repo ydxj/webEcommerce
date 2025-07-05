@@ -1,5 +1,37 @@
 import { db } from '../database/db.js'
 
+export const getProduits = async (req, res) => {
+    // seller id commes from middleware
+    const sellerId = req.id; 
+    try {
+        // Fetch products from the database for the seller
+        const [produits] = await db.query('SELECT * FROM produits WHERE seller_id = ?', [sellerId]);
+        if (produits.length === 0) {
+            return res.status(404).json({ message: 'Aucun produit trouvé.' });
+        }
+        res.status(200).json(produits);
+    } catch (error) {
+        console.error('Erreur lors de la récupération des produits:', error);
+        res.status(500).json({ message: 'Erreur interne du serveur.' });
+    }
+}
+
+export const getProduitById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        // Fetch product by ID from the database
+        const [produit] = await db.query('SELECT * FROM produits WHERE id = ?', [id]);
+        if (produit.length === 0) {
+            return res.status(404).json({ message: 'Produit non trouvé.' });
+        }
+        res.status(200).json(produit[0]);
+    } catch (error) {
+        console.error('Erreur lors de la récupération du produit:', error);
+        res.status(500).json({ message: 'Erreur interne du serveur.' });
+    }
+}
+
+// Ajouter un produit
 export const AjouterProduits = async (req, res) => {
     try {
         const { nom, description, prix, quantite, categorie } = req.body;
