@@ -33,41 +33,54 @@ export const getProduitById = async (req, res) => {
 
 // Ajouter un produit
 export const AjouterProduits = async (req, res) => {
-    try {
-        const { nom, description, prix, quantite, categorie } = req.body;
-    
-        // Validate input
-        if (!nom || !description || !prix || !quantite || !categorie) {
-        return res.status(400).json({ message: 'Tous les champs sont requis.' });
-        }
-    
-        // Insert product into the database
-        const result = await db.query(
-        'INSERT INTO products (nom, description, prix, quantite, categorie) VALUES (?, ?, ?, ?, ?)',
-        [nom, description, prix, quantite, categorie]
+    const { name, description, price, stock, category, seller_id } = req.body;
+  const files = req.files;
+
+  if (!name || !description || !price || !stock || !category || !seller_id) {
+    return res.status(400).json({ message: 'Tous les champs sont requis.' });
+  }
+
+  try {
+    // 1. Insert product
+    const [productResult] = await db.query(
+      `INSERT INTO products (name, description, price, stock, category, seller_id) VALUES (?, ?, ?, ?, ?, ?)`,
+      [name, description, price, stock, category, seller_id]
+    );
+
+    const productId = productResult.insertId;
+
+    // 2. Insert images if available
+    if (files && files.length > 0) {
+      const imagePromises = files.map(file => {
+        const imageUrl = `/uploads/${file.filename}`;
+        return db.query(
+          'INSERT INTO product_images (product_id, image_url, alt_text) VALUES (?, ?, ?)',
+          [productId, imageUrl, file.originalname]
         );
-    
-        res.status(201).json({ message: 'Produit ajouté avec succès.', productId: result.insertId });
-    } catch (error) {
-        console.error('Erreur lors de l\'ajout du produit:', error);
-        res.status(500).json({ message: 'Erreur interne du serveur.' });
+      });
+
+      await Promise.all(imagePromises);
     }
-}
+
+    res.status(201).json({ message: 'Produit ajouté avec succès.', productId });
+  } catch (error) {
+    console.error('Erreur lors de l\'ajout du produit:', error);
+    res.status(500).json({ message: 'Erreur interne du serveur.' });
+  }
+};
 
 export const ModifierProduits = async (req, res) => {
+    const { id } = req.params;
+    const { name, description, price, stock, category } = req.body;
+
+    if (!name || !description || !price || !stock || !category) {
+        return res.status(400).json({ message: 'Tous les champs sont requis.' });
+    }
+
     try {
-        const { id } = req.params;
-        const { nom, description, prix, quantite, categorie } = req.body;
-
-        // Validate input
-        if (!nom || !description || !prix || !quantite || !categorie) {
-            return res.status(400).json({ message: 'Tous les champs sont requis.' });
-        }
-
-        // Update product in the database
-        const result = await db.query(
-            'UPDATE products SET nom = ?, description = ?, prix = ?, quantite = ?, categorie = ? WHERE id = ?',
-            [nom, description, prix, quantite, categorie, id]
+        const [result] = await db.query(
+            'UPDATE products SET name = ?, description = ?, price = ?, stock = ?, category = ? WHERE id = ?',
+            [name, description, price, stock, category, id]
         );
 
         if (result.affectedRows === 0) {
@@ -79,7 +92,7 @@ export const ModifierProduits = async (req, res) => {
         console.error('Erreur lors de la modification du produit:', error);
         res.status(500).json({ message: 'Erreur interne du serveur.' });
     }
-}
+};
 
 export const SupprimerProduits = async (req, res) => {
     try {

@@ -19,6 +19,8 @@ import {
     updateProduct,
     getOrderItems
 } from './controller/AdminController.js';
+import { upload } from './uploads.js';
+
 
 const app = express();
 app.use(cors({
@@ -29,6 +31,7 @@ app.use(cors({
 dotenv.config();
 
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 
 app.post('/api/auth/login', login);
 app.post('/api/auth/register', register);
@@ -36,7 +39,7 @@ app.post('/api/auth/register', register);
 // Ajouter les lien de seller
 app.get('/api/seller/produits', isAuth, isSeller, getProduits);
 app.get('/api/seller/produits/:id', isAuth, isSeller, getProduitById);
-app.post('/api/seller/produits', isAuth, isSeller, AjouterProduits);
+app.post('/api/seller/produits', isAuth, isSeller,upload.array('images', 5),AjouterProduits);
 app.put('/api/seller/produits/:id', isAuth, isSeller, ModifierProduits);
 app.delete('/api/seller/produits/:id', isAuth, isSeller, SupprimerProduits);
 
