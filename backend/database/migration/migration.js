@@ -1,8 +1,8 @@
 import { db } from "../db.js";
 
-function migrate (){
+async function  migrate (){
     // table users
-    db.query(`
+    await db.query(`
     CREATE TABLE IF NOT EXISTS users (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
@@ -21,7 +21,7 @@ function migrate (){
         );
     `)
     // table categories
-    db.query(`
+    await db.query(`
     CREATE TABLE IF NOT EXISTS categories (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(100) NOT NULL UNIQUE,
@@ -30,7 +30,7 @@ function migrate (){
     );
     `)
     // table products
-    db.query(`
+    await db.query(`
     CREATE TABLE IF NOT EXISTS products (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
@@ -45,7 +45,7 @@ function migrate (){
     );
     `)
     // table cart
-    db.query(`
+    await db.query(`
     CREATE TABLE IF NOT EXISTS carts (
         id INT AUTO_INCREMENT PRIMARY KEY,
         buyer_id INT NOT NULL,
@@ -54,7 +54,7 @@ function migrate (){
     );
     `)
     // table cart_items
-    db.query(`
+    await db.query(`
     CREATE TABLE IF NOT EXISTS cart_items (
         id INT AUTO_INCREMENT PRIMARY KEY,
         cart_id INT NOT NULL,
@@ -66,7 +66,7 @@ function migrate (){
     );
     `)
     // table orders
-    db.query(`
+    await db.query(`
     CREATE TABLE IF NOT EXISTS orders (
         id INT AUTO_INCREMENT PRIMARY KEY,
         buyer_id INT NOT NULL,
@@ -77,7 +77,7 @@ function migrate (){
     );
     `)
     // table order_items
-    db.query(`
+    await db.query(`
     CREATE TABLE IF NOT EXISTS order_items (
         id INT AUTO_INCREMENT PRIMARY KEY,
         order_id INT NOT NULL,
@@ -89,7 +89,7 @@ function migrate (){
     );
     `)
     // table reviews
-    db.query(`
+    await db.query(`
     CREATE TABLE IF NOT EXISTS reviews (
         id INT AUTO_INCREMENT PRIMARY KEY,
         product_id INT NOT NULL,
@@ -102,7 +102,7 @@ function migrate (){
     );
     `)
     // table transactions
-    db.query(`
+    await db.query(`
     CREATE TABLE IF NOT EXISTS transactions (
         id INT AUTO_INCREMENT PRIMARY KEY,
         order_id INT NOT NULL,
@@ -114,7 +114,7 @@ function migrate (){
     );
     `)
     // table product_images
-    db.query(`
+    await db.query(`
     CREATE TABLE IF NOT EXISTS product_images (
         id INT AUTO_INCREMENT PRIMARY KEY,
         product_id INT NOT NULL,
@@ -124,7 +124,7 @@ function migrate (){
     );
     `)
         
-    console.log("Users table created successfully.");
-    
+    console.log("All tables created succesfully.");
+
 };
 migrate()
