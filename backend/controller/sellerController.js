@@ -17,10 +17,12 @@ export const getProduits = async (req, res) => {
 }
 
 export const getProduitById = async (req, res) => {
+    // seller id commes from middleware
+    const sellerId = req.user.id;
     const { id } = req.params;
     try {
         // Fetch product by ID from the database
-        const [produit] = await db.query('SELECT * FROM products WHERE id = ?', [id]);
+        const [produit] = await db.query('SELECT * FROM products WHERE id = ? and seller_id = ?', [id, sellerId]);
         if (produit.length === 0) {
             return res.status(404).json({ message: 'Produit non trouvé.' });
         }
@@ -33,7 +35,8 @@ export const getProduitById = async (req, res) => {
 
 // Ajouter un produit
 export const AjouterProduits = async (req, res) => {
-    const { name, description, price, stock, category, seller_id } = req.body;
+    const seller_id  = req.user.id;
+    const { name, description, price, stock, category } = req.body;
   const files = req.files;
 
   if (!name || !description || !price || !stock || !category || !seller_id) {
