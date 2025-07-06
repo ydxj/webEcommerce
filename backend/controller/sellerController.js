@@ -72,6 +72,7 @@ export const AjouterProduits = async (req, res) => {
 export const ModifierProduits = async (req, res) => {
     const { id } = req.params;
     const { name, description, price, stock, category } = req.body;
+    const files = req.files;
 
     if (!name || !description || !price || !stock || !category) {
         return res.status(400).json({ message: 'Tous les champs sont requis.' });
@@ -85,6 +86,17 @@ export const ModifierProduits = async (req, res) => {
 
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: 'Produit non trouvé.' });
+        }
+        if (files && files.length > 0) {
+            const imageInserts = files.map(file => {
+                const imageUrl = `/uploads/${file.filename}`;
+                return db.query(
+                    'INSERT INTO product_images (product_id, image_url, alt_text) VALUES (?, ?, ?)',
+                    [id, imageUrl, file.originalname]
+                );
+            });
+
+            await Promise.all(imageInserts);
         }
 
         res.status(200).json({ message: 'Produit modifié avec succès.' });

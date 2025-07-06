@@ -40,7 +40,7 @@ app.post('/api/auth/register', register);
 app.get('/api/seller/produits', isAuth, isSeller, getProduits);
 app.get('/api/seller/produits/:id', isAuth, isSeller, getProduitById);
 app.post('/api/seller/produits', isAuth, isSeller,upload.array('images', 5),AjouterProduits);
-app.put('/api/seller/produits/:id', isAuth, isSeller, ModifierProduits);
+app.put('/api/seller/produits/:id', isAuth, isSeller,upload.array('images', 5), ModifierProduits);
 app.delete('/api/seller/produits/:id', isAuth, isSeller, SupprimerProduits);
 
 
