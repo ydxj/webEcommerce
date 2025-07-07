@@ -20,7 +20,14 @@ import {
     getOrderItems
 } from './controller/AdminController.js';
 import { upload } from './uploads.js';
-import { getProductByCategory, getProducts,deleteProductImage,getProductByIds,getProductImages } from './controller/ProductController.js';
+import { 
+    getProductByCategory,
+    getProducts,
+    deleteProductImage,
+    getProductByIds,
+    getProductImages,
+    getAllCategories
+} from './controller/ProductController.js';
 
 
 const app = express();
@@ -72,6 +79,9 @@ app.get('/api/products/:id', getProductByIds);
 app.get('/api/products/category/:category', getProductByCategory);
 app.get('/api/products/:id/images', getProductImages);
 app.delete('/api/products/images/:imageId', deleteProductImage);
+
+// Categories routes
+app.get('/api/categories', getAllCategories);
 
 app.listen( process.env.PORT ,()=>{
     console.log(`Back-end running on https://localhost:${process.env.PORT}`)

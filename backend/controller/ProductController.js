@@ -61,3 +61,16 @@ export const deleteProductImage = async (req, res) => {
         res.status(500).json({ message: 'Erreur serveur.' });
     }
 };
+
+export const getAllCategories = async (req, res) => {
+    try {
+        const [categories] = await db.query('SELECT category FROM categories');
+        if (categories.length === 0) {
+            return res.status(404).json({ message: 'Aucune catégorie trouvée.' });
+        }
+        res.status(200).json(categories);
+    } catch (err) {
+        console.error('Error fetching categories:', err);
+        res.status(500).json({ message: 'Erreur serveur.' });
+    }
+}
