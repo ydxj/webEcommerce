@@ -30,7 +30,7 @@ function BuyerMenu() {
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link d-flex align-items-center" to="/orders">
+              <NavLink className="nav-link d-flex align-items-center" to="/myorders">
                 <FaBox className="me-1" /> My Orders
               </NavLink>
             </li>
