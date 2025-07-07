@@ -2,6 +2,7 @@ import { useRef, useEffect } from "react";
 import { Navbar, Container, Form, FormControl, Button, Nav } from "react-bootstrap";
 import { FaHeart, FaShoppingCart, FaUser } from "react-icons/fa";
 import gsap from "gsap";
+import "./header.css"; 
 
 function Header() {
   const headerRef = useRef();
