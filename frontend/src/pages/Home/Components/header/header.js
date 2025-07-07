@@ -1,28 +1,24 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Navbar, Container, Form, FormControl, Button, Nav } from "react-bootstrap";
 import { FaHeart, FaShoppingCart, FaUser } from "react-icons/fa";
 import gsap from "gsap";
 import "./header.css"; 
 
 function Header() {
-  const headerRef = useRef();
+  const [Categories, setCategories] = useState([]);
 
-  /*useEffect(() => {
-    const el = headerRef.current;
-    if (el) {
-      el.style.visibility = 'visible';
-      gsap.from(el, {
-        y: -80,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out"
-      });
+  useEffect(() => {
+    try {
+      const Categories = axios.get("http://localhost:5000/api/categories");
+      setCategories(Categories.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
     }
-  }, []);*/
+  }, []);
+
 
   return (
     <Navbar
-      ref={headerRef}
       expand="lg"
       className="px-4 sticky-top"
       style={{
@@ -32,7 +28,7 @@ function Header() {
     >
       <Container fluid>
         <Navbar.Brand className="fw-bold fs-4 text-dark" href="/">
-          YOUR MARKET
+          Zerhouni
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav">
