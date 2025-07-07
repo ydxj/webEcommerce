@@ -1,0 +1,16 @@
+body {
+  background-color: #f3f6f8;
+}
+
+.navbar {
+  background-color: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link {
+  font-size: 14px;
+}
+
+.navbar-brand {
+  font-weight: bold;
+}

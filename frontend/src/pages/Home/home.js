@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Header from "./Components/header";
+import Header from "./Components/header/header";
 import { useEffect } from "react";
 import axios from "axios";
 import { backendUrl } from "../../env";
