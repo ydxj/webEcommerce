@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { FaTag, FaBoxOpen } from "react-icons/fa";
+import { FaStar, FaRegStar, FaHeart } from "react-icons/fa";
 import gsap from "gsap";
 
 function ProductCard({ product }) {
@@ -13,63 +13,55 @@ function ProductCard({ product }) {
     );
   }, []);
 
+  // Function to generate star rating (static for now — can be dynamic)
+  const renderStars = (rating = 4) => {
+    const fullStars = Math.floor(rating);
+    const emptyStars = 5 - fullStars;
+    return (
+      <>
+        {Array(fullStars).fill().map((_, i) => (
+          <FaStar key={i} className="text-warning" />
+        ))}
+        {Array(emptyStars).fill().map((_, i) => (
+          <FaRegStar key={i} className="text-warning" />
+        ))}
+      </>
+    );
+  };
+
   return (
-    <div
-      ref={cardRef}
-      className="card shadow-sm rounded-4 p-3"
-      style={{ cursor: "pointer", maxWidth: "350px", display: "flex", flexDirection: "column" }}
-    >
-      <div
-        className="d-flex flex-column"
-        style={{ flexGrow: 1, gap: "1rem" }}
-      >
-        {/* Image */}
-        <div style={{ flexShrink: 0, borderRadius: "12px", overflow: "hidden", height: "200px" }}>
+    <div className="col" ref={cardRef}>
+      <div className="bg-white rounded border shadow-sm p-3 position-relative product-card h-100">
+        {/* Wishlist Button */}
+        <button
+          className="btn btn-sm btn-light position-absolute top-0 end-0 m-2"
+          title="Add to Wishlist"
+        >
+          <FaHeart className="text-danger" />
+        </button>
+
+        {/* Product Image */}
+        <a href={`/products/${product.id}`}>
           <img
             src={product.image_url}
-            alt={product.alt_text}
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            alt={product.alt_text || product.name}
+            className="w-100 mb-2"
+            style={{ objectFit: "cover", height: "200px", borderRadius: "0.5rem" }}
           />
+        </a>
+
+        {/* Product Name */}
+        <div className="fw-medium small text-truncate">
+          {product.name}
         </div>
 
-        {/* Info */}
-        <div className="d-flex flex-column flex-grow-1">
-          <h5 className="card-title text-truncate mb-2">{product.name}</h5>
-          <p
-            className="card-text text-muted flex-grow-1"
-            style={{
-              overflow: "hidden",
-              display: "-webkit-box",
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: "vertical",
-              fontSize: "0.9rem",
-            }}
-          >
-            {product.description}
-          </p>
+        {/* Product Price */}
+        <div className="fw-bold">${product.price.toFixed(2)}</div>
 
-          <div className="d-flex justify-content-between align-items-center mt-3">
-            <div>
-              <p className="mb-1 d-flex align-items-center gap-2 text-success fw-semibold" style={{ fontSize: "1.1rem" }}>
-                <FaTag /> ${product.price.toFixed(2)}
-              </p>
-              <p
-                className={`mb-0 d-flex align-items-center gap-2 ${
-                  product.stock > 0 ? "text-primary" : "text-danger"
-                } fw-semibold`}
-              >
-                <FaBoxOpen />
-                {product.stock > 0 ? `In Stock: ${product.stock}` : "Out of Stock"}
-              </p>
-            </div>
-            <a
-              href={`/products/${product.id}`}
-              className="btn btn-outline-primary btn-sm rounded-pill"
-              style={{ whiteSpace: "nowrap" }}
-            >
-              View Product
-            </a>
-          </div>
+        {/* Static Rating */}
+        <div className="text-warning small d-flex align-items-center gap-1">
+          {renderStars(product.rating)}
+          <span className="text-muted">({product.reviewsCount || 0})</span>
         </div>
       </div>
     </div>
