@@ -17,7 +17,8 @@ import {
     getProductById,
     deleteProduct,
     updateProduct,
-    getOrderItems
+    getOrderItems,
+    addCategory
 } from './controller/AdminController.js';
 import { upload } from './uploads.js';
 import { 
@@ -72,6 +73,8 @@ app.get('/api/admin/products', isAuth, isAdmin, getAllProducts);
 app.get('/api/admin/products/:id', isAuth, isAdmin, getProductById);
 app.delete('/api/admin/products/:id', isAuth, isAdmin, deleteProduct);
 app.put('/api/admin/products/:id', isAuth, isAdmin, updateProduct);
+// Admin routes for adding categories
+app.post('/api/admin/categories', isAuth, isAdmin, addCategory);
 
 // products routes
 app.get('/api/products', getProducts);

@@ -1,4 +1,4 @@
-import { db } from "../database/db";
+import { db } from "../database/db.js";
 
 export const getProducts = async (req, res) => {
     try {
@@ -64,7 +64,7 @@ export const deleteProductImage = async (req, res) => {
 
 export const getAllCategories = async (req, res) => {
     try {
-        const [categories] = await db.query('SELECT category FROM categories');
+        const [categories] = await db.query('SELECT id,name FROM categories');
         if (categories.length === 0) {
             return res.status(404).json({ message: 'Aucune catégorie trouvée.' });
         }

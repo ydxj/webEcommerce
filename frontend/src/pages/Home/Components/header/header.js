@@ -3,6 +3,7 @@ import { Navbar, Container, Form, FormControl, Button, Nav, Dropdown } from "rea
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { backendUrl } from "../../../../env";
 import "./header.css";
 
 function Header() {
@@ -12,7 +13,7 @@ function Header() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/categories");
+        const response = await axios.get(`${backendUrl}/api/categories`);
         setCategories(response.data);
       } catch (error) {
         console.error("Error fetching categories:", error);

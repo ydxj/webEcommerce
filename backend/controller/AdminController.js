@@ -190,3 +190,14 @@ export const updateOrder = async (req, res) => {
         res.status(500).json({ message: 'Internal server error.' });
     }
 }
+
+export const addCategory = async (req, res) => {
+    const { name,description } = req.body;
+    try {
+        const [result] = await db.query('INSERT INTO categories (name,description) VALUES (?,?)', [name,description]);
+        res.status(201).json({ id: result.insertId, name });
+    } catch (error) {
+        console.error('Error adding category:', error);
+        res.status(500).json({ message: 'Internal server error.' });
+    }
+}
