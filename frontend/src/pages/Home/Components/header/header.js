@@ -1,21 +1,31 @@
-import { useRef, useEffect, useState } from "react";
-import { Navbar, Container, Form, FormControl, Button, Nav } from "react-bootstrap";
-import { FaHeart, FaShoppingCart, FaUser } from "react-icons/fa";
-import gsap from "gsap";
-import "./header.css"; 
+import { useEffect, useState } from "react";
+import { Navbar, Container, Form, FormControl, Button, Nav, Dropdown } from "react-bootstrap";
+import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "./header.css";
 
 function Header() {
-  const [Categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    try {
-      const Categories = axios.get("http://localhost:5000/api/categories");
-      setCategories(Categories.data);
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/categories");
+        setCategories(response.data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
   }, []);
 
+  const handleCategoryClick = (categoryId) => {
+    // Redirect to a route like /category/:id
+    navigate(`/category/${categoryId}`);
+  };
 
   return (
     <Navbar
@@ -23,7 +33,7 @@ function Header() {
       className="px-4 sticky-top"
       style={{
         backgroundColor: "white",
-        boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)"
+        boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)",
       }}
     >
       <Container fluid>
@@ -33,7 +43,25 @@ function Header() {
         <Navbar.Toggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav">
           <Form className="d-flex mx-3 flex-grow-1">
-            <Button variant="primary" className="me-2">Categories</Button>
+            <Dropdown className="me-2">
+              <Dropdown.Toggle variant="primary" id="dropdown-categories">
+                Categories
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {categories.length > 0 ? (
+                  categories.map((category) => (
+                    <Dropdown.Item
+                      key={category.id}
+                      onClick={() => handleCategoryClick(category.id)}
+                    >
+                      {category.name}
+                    </Dropdown.Item>
+                  ))
+                ) : (
+                  <Dropdown.Item disabled>Loading...</Dropdown.Item>
+                )}
+              </Dropdown.Menu>
+            </Dropdown>
             <FormControl type="search" placeholder="Vitamins" />
           </Form>
           <Nav className="ms-auto align-items-center gap-3">
