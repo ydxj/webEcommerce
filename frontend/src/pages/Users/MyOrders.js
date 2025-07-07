@@ -3,6 +3,7 @@ import axios from "axios";
 import gsap from "gsap";
 import { Card, Spinner } from "react-bootstrap";
 import { FaCheckCircle, FaTimesCircle, FaClock } from "react-icons/fa";
+import BuyerLayout from "./layout/BuyerLayout";
 
 function MyOrders() {
   const [orders, setOrders] = useState([]);
@@ -41,6 +42,8 @@ function MyOrders() {
   };
 
   return (
+    <>
+        <BuyerLayout />
     <div className="container py-5">
       <h3 className="mb-4 fw-bold">🧾 My Orders</h3>
 
@@ -79,6 +82,7 @@ function MyOrders() {
         </div>
       )}
     </div>
+    </>
   );
 }
 

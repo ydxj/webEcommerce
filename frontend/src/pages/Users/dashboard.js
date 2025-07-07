@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { FaShoppingCart, FaHeart, FaBox, FaUserCircle } from "react-icons/fa";
 import gsap from "gsap";
 import "./BuyerDashboard.css";
+import BuyerLayout from "./layout/BuyerLayout";
 
 function BuyerDashboard({ user }) {
   const [recentOrders, setRecentOrders] = useState([]);
@@ -41,6 +42,8 @@ function BuyerDashboard({ user }) {
   ];
 
   return (
+    <>
+    <BuyerLayout />
     <div className="container py-5">
       {/* Welcome */}
       <div className="mb-4 d-flex align-items-center gap-3">
@@ -113,6 +116,7 @@ function BuyerDashboard({ user }) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
