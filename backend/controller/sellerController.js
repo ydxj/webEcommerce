@@ -2,10 +2,10 @@ import { db } from '../database/db.js'
 
 export const getProduits = async (req, res) => {
     // seller id commes from middleware
-    const sellerId = req.id; 
+    const sellerId = req.user.id; 
     try {
         // Fetch products from the database for the seller
-        const [produits] = await db.query('SELECT * FROM products WHERE seller_id = ?', [sellerId]);
+        const [produits] = await db.query('SELECT * FROM products p inner join product_images pi on p.id = pi.product_id WHERE seller_id = ?', [sellerId]);
         if (produits.length === 0) {
             return res.status(404).json({ message: 'Aucun produit trouvé.' });
         }
@@ -22,7 +22,7 @@ export const getProduitById = async (req, res) => {
     const { id } = req.params;
     try {
         // Fetch product by ID from the database
-        const [produit] = await db.query('SELECT * FROM products WHERE id = ? and seller_id = ?', [id, sellerId]);
+        const [produit] = await db.query('SELECT * FROM products p inner join product_images pi on p.id = pi.product_id WHERE id = ? and seller_id = ?', [id, sellerId]);
         if (produit.length === 0) {
             return res.status(404).json({ message: 'Produit non trouvé.' });
         }
@@ -112,7 +112,7 @@ export const ModifierProduits = async (req, res) => {
 export const SupprimerProduits = async (req, res) => {
     try {
         const { id } = req.params;
-
+        const supprimerImage = await db.query('DELETE FROM product_images WHERE product_id = ?', [id]);
         // Delete product from the database
         const result = await db.query('DELETE FROM products WHERE id = ?', [id]);
 

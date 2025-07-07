@@ -1,5 +1,42 @@
 import { db } from "../database/db";
 
+export const getProducts = async (req, res) => {
+    try {
+        const [products] = await db.query('SELECT * FROM products p inner join product_images pi on p.id = pi.product_id');
+        res.status(200).json(products);
+    } catch (err) {
+        console.error('Error fetching products:', err);
+        res.status(500).json({ message: 'Erreur serveur.' });
+    }
+};
+export const getProductByIds = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const [product] = await db.query('SELECT * FROM products p inner join product_images pi on p.id = pi.product_id WHERE p.id = ?', [id]);
+        if (product.length === 0) {
+            return res.status(404).json({ message: 'Produit non trouvé.' });
+        }
+        res.status(200).json(product[0]);
+    } catch (err) {
+        console.error('Error fetching product:', err);
+        res.status(500).json({ message: 'Erreur serveur.' });
+    }
+};
+
+export const getProductByCategory = async (req, res) => {
+    const { category } = req.params;
+    try {
+        const [products] = await db.query('SELECT * FROM products p inner join product_images pi on p.id = pi.product_id WHERE p.category = ?', [category]);
+        if (products.length === 0) {
+            return res.status(404).json({ message: 'Aucun produit trouvé dans cette catégorie.' });
+        }
+        res.status(200).json(products);
+    } catch (err) {
+        console.error('Error fetching products by category:', err);
+        res.status(500).json({ message: 'Erreur serveur.' });
+    }
+};
+
 export const getProductImages = async (req, res) => {
     const { id } = req.params;
     try {
