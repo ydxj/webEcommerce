@@ -6,6 +6,7 @@ import PrivateRoute from './Security/PrivateRoutes';
 import Home from './pages/Home/home';
 import BuyerDashboard from './pages/Users/dashboard';
 import MyOrders from './pages/Users/MyOrders';
+import EditProfile from './pages/Users/Edit Profile/EditProfile';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<PrivateRoute><BuyerDashboard /></PrivateRoute>} />
           <Route path="/myOrders" element={<PrivateRoute><MyOrders /></PrivateRoute>} />
+          <Route path="/editprofile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
         </Routes>
       </BrowserRouter>
     </div>
