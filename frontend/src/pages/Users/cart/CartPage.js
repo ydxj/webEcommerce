@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
 import gsap from "gsap";
+import BuyerMenu from "../layout/BuyerLayout";
 
 function CartPage() {
   const cardRef = useRef(null);
@@ -55,6 +56,8 @@ function CartPage() {
   );
 
   return (
+    <>
+    <BuyerMenu />
     <Container className="my-5" ref={cardRef}>
       <h3 className="mb-4 fw-bold">My Cart</h3>
       {cartItems.length === 0 ? (
@@ -118,6 +121,7 @@ function CartPage() {
         </>
       )}
     </Container>
+    </>
   );
 }
 
