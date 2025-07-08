@@ -9,6 +9,7 @@ import MyOrders from './pages/Users/MyOrders/MyOrders';
 import EditProfile from './pages/Users/Edit Profile/EditProfile';
 import PrivateRoute from './Security/PrivateRoutes';
 import CartPage from './pages/Users/cart/CartPage';
+import NotFound from './pages/err/NotFound';
 
 const AppRoutes = () => (
   <Routes>
@@ -19,6 +20,7 @@ const AppRoutes = () => (
     <Route path="/myOrders" element={<PrivateRoute><MyOrders /></PrivateRoute>} />
     <Route path="/profile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
     <Route path="/cart" element={<PrivateRoute><CartPage /></PrivateRoute>} />
+    <Route path="*" element={<NotFound />} />
   </Routes>
 );
 

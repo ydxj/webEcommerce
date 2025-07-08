@@ -1,0 +1,81 @@
+.notfound-container {
+  height: 100vh;
+  background: #f4f6f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 2rem;
+}
+
+.ghost {
+  width: 120px;
+  height: 140px;
+  background: white;
+  border-radius: 50% 50% 40% 40%;
+  position: relative;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.ghost::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 30px;
+  background: white;
+  bottom: 0;
+  border-radius: 50%;
+  clip-path: polygon(0 0, 20% 100%, 40% 0, 60% 100%, 80% 0, 100% 100%);
+}
+
+.face {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+}
+
+.eye {
+  width: 20px;
+  height: 20px;
+  background: black;
+  border-radius: 50%;
+}
+
+.text-404 {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 0.2rem;
+}
+
+.text-muted {
+  font-size: 1rem;
+  color: #777;
+  margin-bottom: 1rem;
+}
+
+.back-btn {
+  padding: 12px 24px;
+  background-color: #007bff;
+  color: white;
+  font-weight: 500;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  margin-top: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
