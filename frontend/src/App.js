@@ -18,7 +18,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<PrivateRoute><BuyerDashboard /></PrivateRoute>} />
           <Route path="/myOrders" element={<PrivateRoute><MyOrders /></PrivateRoute>} />
-          <Route path="/editprofile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
+          <Route path="/profile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import gsap from "gsap";
 import './EditProfile.css'
+import BuyerMenu from "../layout/BuyerLayout";
 
 function EditProfile() {
   const cardRef = useRef(null);
@@ -50,6 +51,8 @@ function EditProfile() {
   };
 
   return (
+    <>
+    <BuyerMenu />
     <Container className="my-5">
       <Row className="justify-content-center">
         <Col md={8}>
@@ -167,6 +170,7 @@ function EditProfile() {
         </Col>
       </Row>
     </Container>
+    </>
   );
 }
 
