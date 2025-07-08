@@ -3,7 +3,7 @@ import axios from "axios";
 import gsap from "gsap";
 import { Card, Spinner } from "react-bootstrap";
 import { FaCheckCircle, FaTimesCircle, FaClock } from "react-icons/fa";
-import BuyerLayout from "./layout/BuyerLayout";
+import BuyerLayout from "../layout/BuyerLayout";
 
 function MyOrders() {
   const [orders, setOrders] = useState([]);

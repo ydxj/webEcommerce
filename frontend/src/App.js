@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PrivateRoute from './Security/PrivateRoutes';
 import Home from './pages/Home/home';
 import BuyerDashboard from './pages/Users/dashboard/dashboard';
-import MyOrders from './pages/Users/MyOrders';
+import MyOrders from './pages/Users/MyOrders/MyOrders';
 import EditProfile from './pages/Users/Edit Profile/EditProfile';
 
 function App() {
