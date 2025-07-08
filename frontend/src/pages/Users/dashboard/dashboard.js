@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { FaShoppingCart, FaHeart, FaBox, FaUserCircle } from "react-icons/fa";
 import gsap from "gsap";
 import "./BuyerDashboard.css";
-import BuyerLayout from "./layout/BuyerLayout";
+import BuyerLayout from "../layout/BuyerLayout";
 
 function BuyerDashboard({ user }) {
   const [recentOrders, setRecentOrders] = useState([]);

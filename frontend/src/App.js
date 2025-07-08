@@ -4,7 +4,7 @@ import Register from './pages/Auth/register';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PrivateRoute from './Security/PrivateRoutes';
 import Home from './pages/Home/home';
-import BuyerDashboard from './pages/Users/dashboard';
+import BuyerDashboard from './pages/Users/dashboard/dashboard';
 import MyOrders from './pages/Users/MyOrders';
 import EditProfile from './pages/Users/Edit Profile/EditProfile';
 
