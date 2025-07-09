@@ -1,0 +1,21 @@
+.seller-sidebar {
+  width: 250px;
+  min-height: 100vh;
+  position: sticky;
+  top: 0;
+  border-right: 1px solid #333;
+}
+
+.seller-sidebar .nav-link {
+  color: #ccc;
+  padding: 10px;
+  border-radius: 6px;
+  transition: 0.3s ease;
+  font-weight: 500;
+}
+
+.seller-sidebar .nav-link:hover,
+.seller-sidebar .nav-link.active {
+  background-color: #007bff;
+  color: white;
+}
