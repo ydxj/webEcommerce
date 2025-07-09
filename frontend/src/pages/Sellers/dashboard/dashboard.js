@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import "./SellerDashboard.css"; // custom CSS
+import SellerLayout from "../layout/SellerLayout";
 
 export default function SellerDashboard() {
   const cardsRef = useRef([]);
@@ -22,6 +23,8 @@ export default function SellerDashboard() {
   ];
 
   return (
+    <>
+    <SellerLayout />
     <div className="container py-5">
       <h2 className="mb-4 text-center fw-bold">Seller Dashboard</h2>
       <div className="row g-4 justify-content-center">
@@ -41,5 +44,6 @@ export default function SellerDashboard() {
         ))}
       </div>
     </div>
+    </>
   );
 }
