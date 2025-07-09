@@ -1,41 +1,73 @@
 import { useEffect, useRef } from "react";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import gsap from "gsap";
-import { Link, Outlet } from "react-router-dom";
 import "./sellerMenu.css";
 
 export default function SellerLayout() {
-  const sidebarRef = useRef();
+  const navRef = useRef();
+  const location = useLocation();
 
   useEffect(() => {
-    gsap.from(sidebarRef.current, {
-      x: -100,
+    gsap.from(navRef.current, {
+      y: -50,
       opacity: 0,
       duration: 0.6,
       ease: "power3.out",
     });
   }, []);
 
-  return (
-    <div className="d-flex min-vh-100">
-      {/* Sidebar */}
-      <div
-        ref={sidebarRef}
-        className="seller-sidebar p-3 text-white bg-dark"
-      >
-        <h4 className="mb-4 text-center">Seller Panel</h4>
-        <ul className="nav flex-column gap-2">
-          <li><Link to="/seller/dashboard" className="nav-link">📊 Dashboard</Link></li>
-          <li><Link to="/seller/products" className="nav-link">📦 Products</Link></li>
-          <li><Link to="/seller/orders" className="nav-link">🧾 Orders</Link></li>
-          <li><Link to="/seller/add-product" className="nav-link">➕ Add Product</Link></li>
-          <li><Link to="/seller/settings" className="nav-link">⚙️ Settings</Link></li>
-        </ul>
-      </div>
+  const navItems = [
+    { label: "Dashboard", path: "/seller/dashboard" },
+    { label: "Products", path: "/seller/products" },
+    { label: "Orders", path: "/seller/orders" },
+    { label: "Add Product", path: "/seller/add-product" },
+    { label: "Settings", path: "/seller/settings" },
+  ];
 
-      {/* Content */}
-      <div className="flex-grow-1 p-4 bg-light">
+  return (
+    <div>
+      <nav
+        ref={navRef}
+        className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm"
+      >
+        <div className="container">
+          <Link className="navbar-brand fw-bold" to="/seller/dashboard">
+            Seller Panel
+          </Link>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#sellerNavbar"
+            aria-controls="sellerNavbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div className="collapse navbar-collapse" id="sellerNavbar">
+            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+              {navItems.map(({ label, path }) => (
+                <li className="nav-item" key={path}>
+                  <Link
+                    to={path}
+                    className={`nav-link ${
+                      location.pathname === path ? "active" : ""
+                    }`}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <main className="container my-4">
         <Outlet />
-      </div>
+      </main>
     </div>
   );
 }

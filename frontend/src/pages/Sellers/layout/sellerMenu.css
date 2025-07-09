@@ -1,21 +1,30 @@
-.seller-sidebar {
-  width: 250px;
-  min-height: 100vh;
-  position: sticky;
-  top: 0;
-  border-right: 1px solid #333;
+/* Navbar active link underline and hover */
+.navbar-nav .nav-link {
+  position: relative;
+  transition: color 0.3s ease;
 }
 
-.seller-sidebar .nav-link {
-  color: #ccc;
-  padding: 10px;
-  border-radius: 6px;
-  transition: 0.3s ease;
-  font-weight: 500;
+.navbar-nav .nav-link:hover {
+  color: #ffd54f !important; /* Gold-ish highlight */
 }
 
-.seller-sidebar .nav-link:hover,
-.seller-sidebar .nav-link.active {
-  background-color: #007bff;
-  color: white;
+.navbar-nav .nav-link.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 3px;
+  width: 100%;
+  background-color: #ffd54f;
+  border-radius: 2px;
+}
+
+/* Optional: subtle shadow on the navbar */
+.navbar {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Main content padding */
+main.container {
+  min-height: 75vh;
 }
