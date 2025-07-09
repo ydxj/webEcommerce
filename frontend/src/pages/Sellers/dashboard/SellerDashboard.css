@@ -1,0 +1,19 @@
+.dashboard-card {
+  transition: transform 0.3s ease;
+  border-radius: 1rem;
+  background: linear-gradient(145deg, #ffffff, #f3f3f3);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.card-title {
+  font-weight: 600;
+  color: #333;
+}
+
+.card-text {
+  color: #007bff;
+}
